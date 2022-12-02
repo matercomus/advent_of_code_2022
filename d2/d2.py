@@ -4,27 +4,48 @@
 #lost 0
 #tied 3
 #won  6
-with open("input.txt","r") as input:
+with open("d2/input.txt","r") as input:
     rounds = input.read().split('\n')[:-1]
     rounds = [i.split() for i in rounds]
-    #[rock,paper,scissors] each kills the index below it (negative indexies will start from end)
     #replace opponents xyz for abc respectively for comparisons.
     for round in rounds:
         round[1] = round[1].replace('X', 'A')
         round[1] = round[1].replace('Y', 'B')
         round[1] = round[1].replace('Z', 'C')
     print(rounds[:10])
+
+    #[rock,paper,scissors] each kills the index below it (negative indexies will start from end)
     n_points = 0 
     def point_counter(round):
+        global n_points
         rules = ['A','B','C']
         opponent = round[0]
         player = round[1]
 
-        #player wins
-        if rules.index(opponent) -1 == rules.index(player):
-            print('Player wins')
+        print(f'opponent: {rules.index(opponent)}, player: {rules.index(player)}')
+        #tie
+        if opponent == player:
             print(f'opponent: {opponent}, player: {player}')
+            print('Tie')
+            n_points += rules.index(player) +1
+            n_points += 3
 
+        #player wins
+        if opponent == rules[rules.index(player)-1]:
+            print(f'opponent: {opponent}, player: {player}')
+            print('Player wins')
+            n_points += rules.index(player) +1
+            n_points += 6
 
-    print(rounds[:10])
-    map(point_counter, rounds)
+        #Opponent wins
+        if player == rules[rules.index(opponent)-1]:
+            print(f'opponent: {opponent}, player: {player}')
+            print('Opponent wins')
+            n_points += rules.index(player) +1
+        print(n_points) 
+    for round in rounds:
+        point_counter(round)
+
+    print(f'Total Points: {n_points}')
+
+    
