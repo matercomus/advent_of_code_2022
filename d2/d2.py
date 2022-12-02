@@ -5,5 +5,26 @@
 #tied 3
 #won  6
 with open("input.txt","r") as input:
-    rounds = input.readlines()
-    print(rounds)
+    rounds = input.read().split('\n')[:-1]
+    rounds = [i.split() for i in rounds]
+    #[rock,paper,scissors] each kills the index below it (negative indexies will start from end)
+    #replace opponents xyz for abc respectively for comparisons.
+    for round in rounds:
+        round[1] = round[1].replace('X', 'A')
+        round[1] = round[1].replace('Y', 'B')
+        round[1] = round[1].replace('Z', 'C')
+    print(rounds[:10])
+    n_points = 0 
+    def point_counter(round):
+        rules = ['A','B','C']
+        opponent = round[0]
+        player = round[1]
+
+        #player wins
+        if rules.index(opponent) -1 == rules.index(player):
+            print('Player wins')
+            print(f'opponent: {opponent}, player: {player}')
+
+
+    print(rounds[:10])
+    map(point_counter, rounds)
